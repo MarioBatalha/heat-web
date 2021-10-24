@@ -32,7 +32,7 @@ export const SendMessageForm = () => {
                 </span>
             </header>
 
-            <form className={styles.sendMessageForm} onSubmit={handleSendMessage}>
+            <form onSubmit={handleSendMessage} className={styles.sendMessageForm}>
                 <label htmlFor="message">Mensagem</label>
                 <textarea 
                 onChange={e => setMessage(e.target.value)}
