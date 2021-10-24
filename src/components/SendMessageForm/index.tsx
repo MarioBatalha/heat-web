@@ -13,6 +13,7 @@ export const SendMessageForm = () => {
         if(!message.trim()) return;
 
         await api.post('messages', { message })
+        console.log(message)
         setMessage('')
     }  
     return (

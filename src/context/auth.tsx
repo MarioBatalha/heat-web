@@ -42,6 +42,7 @@ export const AuthProvider = (props: AuthProvider) => {
     const { token, user } = response.data;
 
     localStorage.setItem("@dowhile:token", token);
+    api.defaults.headers.common.authorization = `Bearer ${token}`;
     setUser(user);
   };
 
@@ -49,6 +50,18 @@ export const AuthProvider = (props: AuthProvider) => {
     setUser(null);
     localStorage.removeItem('@doWhile:token')
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('@doWhile:token')
+
+    if(token) {
+      api.defaults.headers.common.authorization = `Bearer ${token}`;
+
+      api.get<User>('profile').then(response => {
+      setUser(response.data);  
+      })
+    }
+  }, []);
 
   useEffect(() => {
     const url = window.location.href;
@@ -62,18 +75,6 @@ export const AuthProvider = (props: AuthProvider) => {
     }
   }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem('@doWhile:token')
-
-    if(token) {
-      api.defaults.headers.common.authorization = `Bearer ${token}`;
-
-      api.get<User>('profile').then(response => {
-      setUser(response.data);  
-
-      })
-    }
-  }, [])
   return (
     <AuthContext.Provider
       value={{
